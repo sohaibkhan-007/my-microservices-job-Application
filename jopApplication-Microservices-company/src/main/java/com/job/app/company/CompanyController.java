@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.job.app.Dto.CompanyReviewDto;
+
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
@@ -24,8 +26,8 @@ public class CompanyController {
 	}
 
 	@GetMapping
-	public List<Company> getAllCompanies() {
-		return companyServices.getAllCompanies();
+	public ResponseEntity<List<CompanyReviewDto>> getAllCompanies() {
+		return ResponseEntity.ok(companyServices.getAllCompanies());
 	}
 
 	@GetMapping("/{id}")

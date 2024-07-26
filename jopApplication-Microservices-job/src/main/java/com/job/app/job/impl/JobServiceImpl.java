@@ -5,17 +5,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.job.app.dto.JobWithCompanyDto;
 import com.job.app.externals.Company;
+import com.job.app.job.AppConfig;
 import com.job.app.job.Job;
 import com.job.app.job.JobRepository;
 import com.job.app.job.JobService;
 
 @Service
 public class JobServiceImpl implements JobService {
+
+	@Autowired
+	RestTemplate restTemplate;
 
 	JobRepository jobRepository;
 
@@ -30,13 +35,12 @@ public class JobServiceImpl implements JobService {
 	}
 
 	public JobWithCompanyDto convertToDto(Job job) {
-		RestTemplate restTemplate = new RestTemplate();
-		JobWithCompanyDto jobWIthCompanyDto = new JobWithCompanyDto();
-		jobWIthCompanyDto.setJob(job);
-		Company company = restTemplate.getForObject("http://localhost:8082/company/" + job.getCompanyId(),
-				Company.class);
-		jobWIthCompanyDto.setCompany(company);
-		return jobWIthCompanyDto;
+		JobWithCompanyDto jobWithCompanyDto = new JobWithCompanyDto();
+		jobWithCompanyDto.setJob(job);
+		Company company = restTemplate.getForObject(
+				"http://jopApplication-Microservices-company/company/" + job.getCompanyId(), Company.class);
+		jobWithCompanyDto.setCompany(company);
+		return jobWithCompanyDto;
 	}
 
 	@Override

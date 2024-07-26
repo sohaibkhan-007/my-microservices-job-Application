@@ -13,7 +13,7 @@
 	<artifactId>jop-Microservice</artifactId>
 	<version>3.1.1</version>
 	<name>jopApplication-Microservices</name>
-	<description>A monolithick job application</description>
+	<description>A microservices job application</description>
 	<url />
 	<licenses>
 		<license />
