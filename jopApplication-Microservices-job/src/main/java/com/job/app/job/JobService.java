@@ -2,15 +2,15 @@ package com.job.app.job;
 
 import java.util.List;
 
-import com.job.app.dto.JobWithCompanyDto;
+import com.job.app.dto.JobDto;
 
 public interface JobService {
 
-	List<JobWithCompanyDto> findAll();
+	List<JobDto> findAll();
 
 	void createJob(Job job);
 
-	Job getJobById(Long id);
+	JobDto getJobById(Long id);
 
 	Boolean deleteById(Long id);
 

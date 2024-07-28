@@ -21,8 +21,6 @@ public class ReviewServicesImpl implements ReviewServices {
 
 	@Override
 	public List<Review> getAllReviewsByCompanyId(Long companyId) {
-		Long id = 1L;
-		System.out.println(reviewsRepository.getAllReviewsByCompanyId(id));
 		return reviewsRepository.getAllReviewsByCompanyId(companyId);
 	}
 

@@ -1,20 +1,23 @@
 package com.job.app.job.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.job.app.dto.JobWithCompanyDto;
+import com.job.app.dto.JobDto;
 import com.job.app.externals.Company;
-import com.job.app.job.AppConfig;
+import com.job.app.externals.Review;
 import com.job.app.job.Job;
 import com.job.app.job.JobRepository;
 import com.job.app.job.JobService;
+import com.job.app.mapper.JobMapper;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -29,18 +32,21 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<JobWithCompanyDto> findAll() {
+	public List<JobDto> findAll() {
 		List<Job> jobs = jobRepository.findAll();
 		return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
 	}
 
-	public JobWithCompanyDto convertToDto(Job job) {
-		JobWithCompanyDto jobWithCompanyDto = new JobWithCompanyDto();
-		jobWithCompanyDto.setJob(job);
+	public JobDto convertToDto(Job job) {
 		Company company = restTemplate.getForObject(
 				"http://jopApplication-Microservices-company/company/" + job.getCompanyId(), Company.class);
-		jobWithCompanyDto.setCompany(company);
-		return jobWithCompanyDto;
+		ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange(
+				"http://jopApplication-Microservices-reviwe/reviews?companyId=" + company.getReviewId(), HttpMethod.GET,
+				null, new ParameterizedTypeReference<List<Review>>() {
+				});
+		List<Review> reviews = reviewResponse.getBody();
+		JobDto jobDto = JobMapper.mapToJobWithCompanyDto(job, company, reviews);
+		return jobDto;
 	}
 
 	@Override
@@ -49,8 +55,12 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public Job getJobById(Long id) {
-		return jobRepository.findById(id).orElse(null);
+	public JobDto getJobById(Long id) {
+		Job job = jobRepository.findById(id).orElse(null);
+		if (job != null) {
+			return convertToDto(job);
+		}
+		return null;
 	}
 
 	@Override
