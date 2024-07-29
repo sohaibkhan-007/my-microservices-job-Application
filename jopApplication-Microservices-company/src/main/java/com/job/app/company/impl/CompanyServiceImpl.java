@@ -36,7 +36,7 @@ public class CompanyServiceImpl implements CompanyServices {
 		CompanyReviewDto companyReviewDto = new CompanyReviewDto();
 		companyReviewDto.setCompany(company);
 		Review review = restTemplate.getForObject(
-				"http://jopApplication-Microservices-reviwe/reviews/" + company.getReviewId(), Review.class);
+				"http://jopApplication-Microservices-review/reviews/" + company.getReviewId(), Review.class);
 		companyReviewDto.setReview(review);
 		return companyReviewDto;
 	}

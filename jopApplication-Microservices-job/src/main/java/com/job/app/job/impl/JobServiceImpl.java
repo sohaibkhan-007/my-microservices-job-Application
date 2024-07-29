@@ -1,5 +1,6 @@
 package com.job.app.job.impl;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,11 +43,9 @@ public class JobServiceImpl implements JobService {
 	}
 
 	public JobDto convertToDto(Job job) {
-		System.out.println(job.toString());
+
 		Company company = companyClient.getCompany(job.getCompanyId());
-		System.out.println(company.toString());
 		List<Review> reviews = reviewClient.getReviews(company.getReviewId());
-		System.out.println(reviews.toString());
 		JobDto jobDto = JobMapper.mapToJobWithCompanyDto(job, company, reviews);
 		return jobDto;
 	}

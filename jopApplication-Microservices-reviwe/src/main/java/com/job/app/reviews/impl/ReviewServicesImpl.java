@@ -12,16 +12,15 @@ import com.job.app.reviews.ReviewsRepository;
 @Service
 public class ReviewServicesImpl implements ReviewServices {
 
-	private ReviewsRepository reviewsRepository;
+	private final ReviewsRepository reviewsRepository;
 
 	public ReviewServicesImpl(ReviewsRepository reviewsRepository) {
 		this.reviewsRepository = reviewsRepository;
-
 	}
 
 	@Override
 	public List<Review> getAllReviewsByCompanyId(Long companyId) {
-		return reviewsRepository.getAllReviewsByCompanyId(companyId);
+		return reviewsRepository.findAllByCompanyId(companyId); // Ensure method exists in ReviewsRepository
 	}
 
 	@Override
@@ -35,21 +34,17 @@ public class ReviewServicesImpl implements ReviewServices {
 	}
 
 	@Override
-	public Review getReviewById(Long reviewId) {
-		Optional<Review> optional = reviewsRepository.findById(reviewId);
-		if (optional.isPresent()) {
-			return optional.get();
-		}
-		return null;
+	public Optional<Review> getReviewById(Long reviewId) {
+		return reviewsRepository.findById(reviewId);
 	}
 
 	@Override
 	public Boolean updateReviewById(Review updateReview, Long reviewId) {
-		Review review = reviewsRepository.findById(reviewId).orElse(null);
-		if (review != null) {
+		Optional<Review> optionalReview = reviewsRepository.findById(reviewId);
+		if (optionalReview.isPresent()) {
+			Review review = optionalReview.get();
 			review.setCompanyId(updateReview.getCompanyId());
 			review.setDescription(updateReview.getDescription());
-			review.setId(reviewId);
 			review.setRating(updateReview.getRating());
 			review.setTitle(updateReview.getTitle());
 			reviewsRepository.save(review);
@@ -60,12 +55,11 @@ public class ReviewServicesImpl implements ReviewServices {
 
 	@Override
 	public Boolean deleteById(Long reviewId) {
-		Review review = reviewsRepository.findById(reviewId).orElse(null);
-		if (review != null) {
-			reviewsRepository.delete(review);
+		Optional<Review> optionalReview = reviewsRepository.findById(reviewId);
+		if (optionalReview.isPresent()) {
+			reviewsRepository.delete(optionalReview.get());
 			return true;
 		}
 		return false;
 	}
-
 }

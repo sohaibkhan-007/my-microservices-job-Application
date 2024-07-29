@@ -1,6 +1,7 @@
 package com.job.app.reviews;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewServices {
 
@@ -8,7 +9,7 @@ public interface ReviewServices {
 
 	List<Review> getAllReviewsByCompanyId(Long companyId);
 
-	Review getReviewById(Long reviewId);
+	Optional<Review> getReviewById(Long reviewId);
 
 	Boolean updateReviewById(Review updatedReview, Long reviewId);
 

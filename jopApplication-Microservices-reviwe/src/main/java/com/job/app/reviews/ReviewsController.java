@@ -1,6 +1,8 @@
 package com.job.app.reviews;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +28,7 @@ public class ReviewsController {
 	@GetMapping
 	public ResponseEntity<List<Review>> getAllReviewsByCompanyId(@RequestParam Long companyId) {
 		List<Review> reviewList = reviewServices.getAllReviewsByCompanyId(companyId);
-		return new ResponseEntity<>(reviewList, HttpStatus.FOUND);
+		return new ResponseEntity<>(reviewList, HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -35,15 +37,15 @@ public class ReviewsController {
 		if (isSaved) {
 			return new ResponseEntity<>("Review Added Successfully", HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>("Review Added Successfully", HttpStatus.CREATED);
+			return new ResponseEntity<>("Failed to Add Review", HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/{reviewId}")
 	public ResponseEntity<Review> getReviewById(@PathVariable("reviewId") Long reviewId) {
-		Review review = reviewServices.getReviewById(reviewId);
-		if (review != null) {
-			return new ResponseEntity<>(review, HttpStatus.FOUND);
+		Optional<Review> review = reviewServices.getReviewById(reviewId);
+		if (review.get() != null) {
+			return new ResponseEntity<>(review.get(), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
@@ -51,18 +53,16 @@ public class ReviewsController {
 	@PutMapping("/{reviewId}")
 	public ResponseEntity<String> updateReview(@RequestBody Review review, @PathVariable("reviewId") Long reviewId) {
 		if (reviewServices.updateReviewById(review, reviewId)) {
-			return new ResponseEntity<>("Review Updated succesfully", HttpStatus.OK);
+			return new ResponseEntity<>("Review Updated Successfully", HttpStatus.OK);
 		}
-		return new ResponseEntity<>("Review Updated succesfully", HttpStatus.EXPECTATION_FAILED);
-
+		return new ResponseEntity<>("Failed to Update Review", HttpStatus.BAD_REQUEST);
 	}
 
 	@DeleteMapping("/{reviewId}")
 	public ResponseEntity<String> deleteById(@PathVariable("reviewId") Long reviewId) {
 		if (reviewServices.deleteById(reviewId)) {
-			return new ResponseEntity<>("Review Deleted succesfully", HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>("Review Deleted Successfully", HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>("no such review found", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("No Such Review Found", HttpStatus.NOT_FOUND);
 	}
-
 }

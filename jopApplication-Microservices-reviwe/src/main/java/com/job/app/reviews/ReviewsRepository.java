@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface ReviewsRepository extends JpaRepository<Review, Long> {
 
 	@Query("SELECT r FROM review r WHERE r.companyId = :companyId")
-	List<Review> getAllReviewsByCompanyId(Long companyId);
+	List<Review> findAllByCompanyId(Long companyId);
 
 }
