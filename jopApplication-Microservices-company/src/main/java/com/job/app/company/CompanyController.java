@@ -25,7 +25,7 @@ public class CompanyController {
 		this.companyServices = companyServices;
 	}
 
-	@GetMapping	
+	@GetMapping
 	public ResponseEntity<List<CompanyReviewDto>> getAllCompanies() {
 		return ResponseEntity.ok(companyServices.getAllCompanies());
 	}

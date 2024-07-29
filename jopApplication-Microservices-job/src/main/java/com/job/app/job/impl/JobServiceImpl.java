@@ -5,12 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.job.app.client.CompanyClient;
+import com.job.app.client.ReviewClient;
 import com.job.app.dto.JobDto;
 import com.job.app.externals.Company;
 import com.job.app.externals.Review;
@@ -26,9 +26,13 @@ public class JobServiceImpl implements JobService {
 	RestTemplate restTemplate;
 
 	JobRepository jobRepository;
+	private CompanyClient companyClient;
+	private ReviewClient reviewClient;
 
-	public JobServiceImpl(JobRepository jobRepository) {
+	public JobServiceImpl(JobRepository jobRepository, CompanyClient companyClient, ReviewClient reviewClient) {
 		this.jobRepository = jobRepository;
+		this.companyClient = companyClient;
+		this.reviewClient = reviewClient;
 	}
 
 	@Override
@@ -38,13 +42,11 @@ public class JobServiceImpl implements JobService {
 	}
 
 	public JobDto convertToDto(Job job) {
-		Company company = restTemplate.getForObject(
-				"http://jopApplication-Microservices-company/company/" + job.getCompanyId(), Company.class);
-		ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange(
-				"http://jopApplication-Microservices-reviwe/reviews?companyId=" + company.getReviewId(), HttpMethod.GET,
-				null, new ParameterizedTypeReference<List<Review>>() {
-				});
-		List<Review> reviews = reviewResponse.getBody();
+		System.out.println(job.toString());
+		Company company = companyClient.getCompany(job.getCompanyId());
+		System.out.println(company.toString());
+		List<Review> reviews = reviewClient.getReviews(company.getReviewId());
+		System.out.println(reviews.toString());
 		JobDto jobDto = JobMapper.mapToJobWithCompanyDto(job, company, reviews);
 		return jobDto;
 	}
