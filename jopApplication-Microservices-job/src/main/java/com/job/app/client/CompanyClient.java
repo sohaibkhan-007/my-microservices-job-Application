@@ -8,7 +8,6 @@ import com.job.app.externals.Company;
 
 @FeignClient(name = "JOPAPPLICATION-MICROSERVICES-COMPANY")
 public interface CompanyClient {
-
 	@GetMapping("/company/{id}")
 	Company getCompany(@PathVariable("id") Long id);
 }
