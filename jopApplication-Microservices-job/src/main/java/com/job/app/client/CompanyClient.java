@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.job.app.externals.Company;
 
-@FeignClient(name = "JOPAPPLICATION-MICROSERVICES-COMPANY")
+@FeignClient(name = "company")
 public interface CompanyClient {
 	@GetMapping("/company/{id}")
 	Company getCompany(@PathVariable("id") Long id);

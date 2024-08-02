@@ -20,7 +20,7 @@ public class ReviewServicesImpl implements ReviewServices {
 
 	@Override
 	public List<Review> getAllReviewsByCompanyId(Long companyId) {
-		return reviewsRepository.findAllByCompanyId(companyId); // Ensure method exists in ReviewsRepository
+		return reviewsRepository.findAllByCompanyId(companyId);
 	}
 
 	@Override
