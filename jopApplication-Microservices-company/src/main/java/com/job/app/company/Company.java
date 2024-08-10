@@ -16,11 +16,6 @@ public class Company {
 	private String name;
 	private String description;
 	private Long jobId;
-	private Long reviewId;
-
-	public Long getId() {
-		return id;
-	}
 
 	public Long getJobId() {
 		return jobId;
@@ -36,6 +31,21 @@ public class Company {
 
 	public void setReviewId(Long reviewId) {
 		this.reviewId = reviewId;
+	}
+
+	private Long reviewId;
+	private Double rating;
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -58,5 +68,4 @@ public class Company {
 	public void setName(String name2) {
 		this.name = name2;
 	}
-
 }
