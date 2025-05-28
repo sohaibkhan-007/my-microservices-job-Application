@@ -1,4 +1,4 @@
-# 🚀 Microservices Application
+# 🚀 JobSphere Microservices Application
 
 <div align="center">
 
