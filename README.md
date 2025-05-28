@@ -1,8 +1,8 @@
-# 🚀 JobSphere Microservices Application
+# 🚀 Job Microservices Application
 
 <div align="center">
 
-![Microservices Application Banner](https://img.shields.io/badge/Microservices-Application-0077B6?style=for-the-badge&logo=spring&logoColor=white)
+![Job Microservices Application Banner](https://img.shields.io/badge/Microservices-Application-0077B6?style=for-the-badge&logo=spring&logoColor=white)
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -117,8 +117,8 @@ The application follows a microservices architecture with:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/khan-sk-dev/microservices-Application.git
-cd microservices-Application
+git clone https://github.com/khan-sk-dev/Job-Microservices-Application.git
+cd Job-microservices-Application
 ```
 
 2. **Build the project**
